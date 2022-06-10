@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+  <!-- Add your head block below: -->
+{% block head %}
+{% endblock %}
+</head>
+
+<body>
+  <a href="{% url 'home' %}">Django Delights</a>
+  <h1>Welcome to Django Delights! {{ name }}</h1>
+  {% block content %}
+  {% endblock %}
+</body>

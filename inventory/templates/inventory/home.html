@@ -1,0 +1,13 @@
+{% extends 'inventory/base.html' %}
+<!-- Add your code below: -->
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'inventory/style.css' %}">
+{% endblock %}
+{% block content %}
+<p>Welcome, {{ name }}!</p>
+<p>Here is the current list of menu items:</p>
+  {% for pet in pets %}
+    <p>{{ pet.petname }}: {{ pet.animal_type}}</p>
+  {% endfor %}
+{% endblock %}
