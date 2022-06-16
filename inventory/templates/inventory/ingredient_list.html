@@ -12,6 +12,11 @@
 	<tr>
   {% for ingredient in ingredient_list %}
   </tr>
+  <style>
+    td {
+      padding: 2px;
+    }
+  </style>
   <tr>
       <td>{{ ingredient.name }}</td>
       <td>{{ ingredient.quantity }}</td>
@@ -21,6 +26,6 @@
       <td><a href="{% url 'ingredientdelete' ingredient.id %}"><button>Delete</button></a></td>
     <br>
   </tr>
+  {% endfor %}
 </table>
-{% endfor %}
 {% endblock %}

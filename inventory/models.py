@@ -7,7 +7,11 @@ class Ingredient (models.Model):
     quantity = models.FloatField()
     unit = models.CharField(max_length=100)
     unit_price = models.FloatField()
-
+    
+    def create_ingredient (name, quantity, unit, unit_price):
+        ingredient = Ingredient.objects.create(name=name, quantity=quantity, unit=unit, unit_price=unit_price)
+        return ingredient
+    
     def __str__(self):
         return self.name
 
@@ -18,6 +22,8 @@ class MenuItem (models.Model):
         return self.title
 
     def available(self):
+        if all(X.enough() for X in self.reciperequirement_set.all()) == False:
+            print('This menu item is not available')
         print(all(X.enough() for X in self.reciperequirement_set.all()))
         return all(X.enough() for X in self.reciperequirement_set.all())
 

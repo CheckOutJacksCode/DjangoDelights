@@ -1,4 +1,5 @@
 {% extends './base.html' %}
+{% load static %}
 {% block content %}
 <h2>Menu Items</h2>
 <a href="{% url 'menuitemcreate' %}"><button class="btn">Add Menu Item</button></a>
@@ -10,6 +11,11 @@
   <tr>
   {% for menuitem in menuitem_list %}
   </tr>
+  <style>
+      td {
+        padding: 10px;
+      }
+  </style>
   <tr>
       <td>{{ menuitem.title }}</td>
       <td>{{ menuitem.price }}</td>
@@ -17,6 +23,6 @@
       <td><a href="{% url 'menuitemdelete' menuitem.id %}"><button>Delete</button></a></td>
     <br>
   </tr>
+  {% endfor %}
 </table>
-{% endfor %}
 {% endblock %}

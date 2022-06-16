@@ -9,5 +9,8 @@
 <p>Here is the current list of menu items:</p>
   {% for menu_item in menu_items %}
     <p>{{ menu_item.title }}</p>
+    {% for recipe_requirement in menu_item.reciperequirement_set.all %}
+        <p>{{ recipe_requirement.ingredient }} {{ recipe_requirement.quantity }}</p>
+  {% endfor %}
   {% endfor %}
 {% endblock %}
