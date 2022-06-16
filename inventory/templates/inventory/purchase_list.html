@@ -1,7 +1,6 @@
 {% extends './base.html' %}
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'inventory/style.css' %}">
 <h2>Purchase List</h2>
 <a href="{% url 'purchasecreate' %}"><button class="btn">Add a Purchase</button></a>
 <table id="purchases">
@@ -11,10 +10,10 @@
   </tr> 
   {% for purchase in purchase_list %}
     <tr>
-      <td style="padding:15px">{{ purchase.menu_item }}</td>
-      <td style="padding:15px">{{ purchase.timestamp }}</td>
-      <td style="padding:15px"><a href="{% url 'purchaseupdate' purchase.id %}"><button>Edit</button></a></td>
-      <td style="padding:15px"><a href="{% url 'purchasedelete' purchase.id %}"><button>Delete</button></a></td>
+      <td>{{ purchase.menu_item }}</td>
+      <td>{{ purchase.timestamp }}</td>
+      <td><a href="{% url 'purchaseupdate' purchase.id %}"><button>Edit</button></a></td>
+      <td><a href="{% url 'purchasedelete' purchase.id %}"><button>Delete</button></a></td>
     <br>
     </tr>
     {% endfor %}

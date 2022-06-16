@@ -6,7 +6,14 @@
 </head>
 
 <body>
-  <a href="{% url 'home' %}">Django Delights</a>
+  {% block sidebar %}
+        <ul class="sidebar-nav">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'ingredientlist' %}">Ingredients</a></li>
+          <li><a href="{% url 'menuitemlist' %}">Menu Items</a></li>
+          <li><a href="{% url 'reciperequirementlist' %}">Recipe Requirements</a></li>
+        </ul>
+     {% endblock %}
   <h1>Welcome to Django Delights! {{ name }}</h1>
   {% block content %}
   {% endblock %}
