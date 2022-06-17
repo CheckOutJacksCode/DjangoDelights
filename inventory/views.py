@@ -107,7 +107,7 @@ class RecipeRequirementUpdate(SuccessMessageMixin, UpdateView):
 class RecipeRequirementCreate(SuccessMessageMixin, CreateView):
     model = RecipeRequirement
     template_name = "inventory/reciperequirement_create.html"
-    fields = ["menu_item", "ingredient", "quantity"]
+    form_class = RecipeRequirementCreateForm
     success_url = reverse_lazy('reciperequirementlist')
     success_message = 'new recipe requirement added'
 
@@ -124,14 +124,14 @@ class PurchaseList(ListView):
 class PurchaseUpdate(SuccessMessageMixin, UpdateView):
     model = Purchase
     template_name = "inventory/purchase_update.html"
-    fields = ["menu_item", "timestamp"]
+    form_class = PurchaseCreateForm
     success_url = reverse_lazy('purchaselist')
     success_message = 'purchase updated'
 
 class PurchaseCreate(SuccessMessageMixin, CreateView):
     model = Purchase
     template_name = "inventory/purchase_create.html"
-    fields = ["menu_item", "timestamp"]
+    form_class = PurchaseCreateForm
     #success_url = reverse_lazy('purchaselist')
     #success_message = 'new purchase added'
     
