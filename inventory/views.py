@@ -2,7 +2,9 @@ from django.shortcuts import redirect
 from multiprocessing import context, get_context
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from .models import Ingredient, MenuItem, Purchase, RecipeRequirement
+
+from .models import MenuItem, RecipeRequirement, Ingredient, Purchase
+from .forms import MenuItemCreateForm, RecipeRequirementCreateForm, IngredientCreateForm, PurchaseCreateForm
 from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -32,9 +34,10 @@ class IngredientUpdate(UpdateView):
 
 class IngredientCreate(CreateView):
     model = Ingredient
+    form_class = IngredientCreateForm
     template_name = "inventory/ingredient_create.html"
-    fields = ["name", "quantity", "unit", "unit_price"]
 
+    #fields = ["name", "quantity", "unit", "unit_price"]
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["ingredients"] = [X for X in Ingredient.objects.all()]
@@ -42,20 +45,22 @@ class IngredientCreate(CreateView):
         return context
 
     def post(self, request):
-        name = request.POST['name']
-        quantity = request.POST['quantity']
-        unit = request.POST['unit']
-        unit_price = request.POST['unit_price']
-        for ingredient in Ingredient.objects.all():
-            if ingredient.name == request.POST['name']:
-                print('INGREDIENT ALREADY EXISTS')
-                return redirect('/ingredient/list')
-        new_ingredient = Ingredient.create_ingredient(name, quantity, unit, unit_price)
-        new_ingredient.save()
-        return redirect('/ingredient/list')
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            quantity = request.POST['quantity']
+            unit = request.POST['unit']
+            unit_price = request.POST['unit_price']
+            for ingredient in Ingredient.objects.all():
+                if ingredient.name == request.POST['name']:
+                    print('INGREDIENT ALREADY EXISTS')
+                    return redirect('/ingredient/list')
+            new_ingredient = Ingredient.create_ingredient(name, quantity, unit, unit_price)
+            new_ingredient.save()
+            return redirect('/ingredient/list')
 
-        #success_url = reverse_lazy('ingredientlist')
-        #success_message = 'new ingredient added'
+            #success_url = reverse_lazy('ingredientlist')
+            #success_message = 'new ingredient added'
 
 class IngredientDelete(DeleteView):
     model = Ingredient
@@ -70,14 +75,14 @@ class MenuItemList(ListView):
 class MenuItemUpdate(SuccessMessageMixin, UpdateView):
     model = MenuItem
     template_name = "inventory/menuitem_update.html"
-    fields = ["title", "price"]
+    form_class = MenuItemCreateForm
     success_url = reverse_lazy('menuitemlist')
     success_message = 'menu item update'
 
 class MenuItemCreate(SuccessMessageMixin, CreateView):
     model = MenuItem
     template_name = "inventory/menuitem_create.html"
-    fields = ["title", "price"]
+    form_class = MenuItemCreateForm
     success_url = reverse_lazy('menuitemlist')
     success_message = 'new menu item added'
 
