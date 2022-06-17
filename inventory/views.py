@@ -57,7 +57,8 @@ class IngredientCreate(CreateView):
                     return redirect('/ingredient/list')
             new_ingredient = Ingredient.create_ingredient(name, quantity, unit, unit_price)
             new_ingredient.save()
-            return redirect('/ingredient/list')
+        return redirect('/ingredient/list')
+        
 
             #success_url = reverse_lazy('ingredientlist')
             #success_message = 'new ingredient added'
