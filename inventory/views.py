@@ -2,7 +2,6 @@ from django.shortcuts import redirect
 from multiprocessing import context, get_context
 from django.shortcuts import render
 from django.urls import reverse_lazy
-
 from .models import MenuItem, RecipeRequirement, Ingredient, Purchase
 from .forms import MenuItemCreateForm, RecipeRequirementCreateForm, IngredientCreateForm, PurchaseCreateForm
 from django.views.generic import ListView, TemplateView, DetailView
