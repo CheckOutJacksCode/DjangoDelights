@@ -17,8 +17,7 @@
       <td>{{ reciperequirement.quantity }}</td>
       <td><a href="{% url 'reciperequirementupdate' reciperequirement.id %}"><button>Edit</button></a></td>
       <td><a href="{% url 'reciperequirementdelete' reciperequirement.id %}"><button>Delete</button></a></td>
-    <br>
   </tr>
+  {% endfor %}
 </table>
-{% endfor %}
 {% endblock %}

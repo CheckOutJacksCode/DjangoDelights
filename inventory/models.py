@@ -42,7 +42,7 @@ class RecipeRequirement (models.Model):
         return self.quantity <= self.ingredient.quantity
 
     def __str__(self):
-        return str(self.ingredient) + ': ' + str(self.quantity) + ' ' + str(self.ingredient.unit)
+        return str(self.menu_item) + ' - ' + str(self.ingredient) + ': ' + str(self.quantity) + ' ' + str(self.ingredient.unit)
 
     def get_absolute_url(self):
         return "/list"

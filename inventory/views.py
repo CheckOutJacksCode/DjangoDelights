@@ -99,7 +99,7 @@ class RecipeRequirementList(ListView):
 class RecipeRequirementUpdate(SuccessMessageMixin, UpdateView):
     model = RecipeRequirement
     template_name = "inventory/reciperequirement_update.html"
-    fields = ["menu_item", "ingredient", "quantity"]
+    form_class = RecipeRequirementCreateForm
     success_url = reverse_lazy('reciperequirementlist')
     success_message = 'recipe requirement update'
 
