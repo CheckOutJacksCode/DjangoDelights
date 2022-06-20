@@ -12,7 +12,7 @@
   {% for ingredient in ingredient_list %}
   <tr>
       <td>{{ ingredient.name }}</td>
-      <td>{{ ingredient.quantity }}</td>
+      <td>{{ ingredient.quantity|floatformat:2 }}</td>
       <td>{{ ingredient.unit }}</td>
       <td>{{ ingredient.unit_price }}</td>
       <td><a href="{% url 'ingredientupdate' ingredient.id %}"><button>Edit</button></a></td>

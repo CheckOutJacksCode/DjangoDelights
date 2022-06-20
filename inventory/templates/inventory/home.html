@@ -17,7 +17,7 @@
     <td style="vertical-align:top">
     {% for recipe_requirement in menu_item.reciperequirement_set.all %}
       <ul>
-        <li>{{ recipe_requirement.ingredient }} {{ recipe_requirement.quantity }}</li>
+        <li>{{ recipe_requirement.ingredient }}</li>
       </ul>
     {% endfor %}
     </td>

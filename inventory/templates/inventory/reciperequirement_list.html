@@ -7,6 +7,8 @@
     <th>Menu Item</th>
     <th>Ingredient</th>
     <th>Quantity</th>
+    <th>Unit</th>
+    <th>Unit Price</th>
   </tr> 
 	<tr>
   {% for reciperequirement in reciperequirement_list %}
@@ -15,6 +17,8 @@
       <td>{{ reciperequirement.menu_item }}</td>
       <td>{{ reciperequirement.ingredient }}</td>
       <td>{{ reciperequirement.quantity }}</td>
+      <td>{{ reciperequirement.ingredient.unit }}</td>
+      <td>{{ reciperequirement.ingredient.unit_price }}</td>
       <td><a href="{% url 'reciperequirementupdate' reciperequirement.id %}"><button>Edit</button></a></td>
       <td><a href="{% url 'reciperequirementdelete' reciperequirement.id %}"><button>Delete</button></a></td>
   </tr>
