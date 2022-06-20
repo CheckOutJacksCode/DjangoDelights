@@ -7,19 +7,21 @@
 <p>Welcome, {{ name }}!</p>
 <p>Here is the current list of menu items:</p>
 <table>
-  <tr> 
+<tr>
 {% for menu_item in menu_items %}
-    <td>{{ menu_item.title }}</td>
-  </tr>
-  <tr>
-    <td>
+  <th>{{ menu_item.title }}</th>
+{% endfor %}
+</tr>
+<tr>
+  {% for menu_item in menu_items %}
+    <td style="vertical-align:top">
     {% for recipe_requirement in menu_item.reciperequirement_set.all %}
-        <ul>
-          <li>{{ recipe_requirement.ingredient }} {{ recipe_requirement.quantity }}</li>
-        </ul>
+      <ul>
+        <li>{{ recipe_requirement.ingredient }} {{ recipe_requirement.quantity }}</li>
+      </ul>
     {% endfor %}
-      </td>
-    </tr>
-    {% endfor %}
+    </td>
+  {% endfor %}
+</tr>
 </table>
 {% endblock %}

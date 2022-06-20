@@ -12,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required 
+from django.db.models import Sum, F
 
 class SignUp(CreateView):
   form_class = UserCreationForm
@@ -169,11 +170,27 @@ class PurchaseCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         purchase.save()
         return redirect('/purchase/list')
 
-
-
-
 class PurchaseDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Purchase
     template_name = "inventory/purchase_delete.html"
     success_url = reverse_lazy('purchaselist')
     success_message = 'purchase deleted'
+
+class ReportView(LoginRequiredMixin, TemplateView):
+    template_name = "inventory/reports.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["purchases"] = Purchase.objects.all()
+        revenue = Purchase.objects.aggregate(
+            revenue=Sum("menu_item__price"))["revenue"]
+        total_cost = 0
+        for purchase in Purchase.objects.all():
+            for recipe_requirement in purchase.menu_item.reciperequirement_set.all():
+                total_cost += recipe_requirement.ingredient.unit_price * recipe_requirement.quantity
+
+        context["revenue"] = revenue
+        context["total_cost"] = total_cost
+        context["profit"] = revenue - total_cost
+
+        return context
