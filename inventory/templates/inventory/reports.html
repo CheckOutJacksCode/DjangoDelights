@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends './purchase_list.html' %}
 {% block content %}
 {% load static %}
 <h2>Purchase List</h2>
@@ -11,14 +11,13 @@
   </tr> 
   {% for purchase in purchase_list %}
     <tr>
-      <td>{{ purchase.menu_item }}</td>
+      <td>{{ purchase.menu_item.title }}</td>
       <td>{{ purchase.menu_item.price }}</td>
       <td>{{ purchase.timestamp }}</td>
       <td><a href="{% url 'purchaseupdate' purchase.id %}"><button>Edit</button></a></td>
       <td><a href="{% url 'purchasedelete' purchase.id %}"><button>Delete</button></a></td>
-    <br>
     </tr>
-    {% endfor %}
+  {% endfor %}
 </table>
 <h2>Totals</h2>
 <div>Total Revenue: ${{ revenue }}</div>
