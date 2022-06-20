@@ -8,8 +8,21 @@ from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import ValidationError
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required 
 
-class HomeView(TemplateView):
+class SignUp(CreateView):
+  form_class = UserCreationForm
+  success_url = reverse_lazy("login")
+  template_name = "registration/signup.html"
+  
+def logout_view(request):
+  logout(request)
+  return redirect("home")
+
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "inventory/home.html"
 
     def get_context_data(self, **kwargs):
@@ -20,18 +33,18 @@ class HomeView(TemplateView):
         context["purchases"] = Purchase.objects.all()
         return context
 
-class IngredientList(ListView):
+class IngredientList(LoginRequiredMixin, ListView):
     model = Ingredient
     template_name: "inventory/ingredient_list.html"
     
-class IngredientUpdate(UpdateView):
+class IngredientUpdate(LoginRequiredMixin, UpdateView):
     model = Ingredient
     template_name = "inventory/ingredient_update.html"
     fields = ["name", "quantity", "unit", "unit_price"]
     success_url = reverse_lazy('ingredientlist')
     success_message = 'ingredient updated'
 
-class IngredientCreate(CreateView):
+class IngredientCreate(LoginRequiredMixin, CreateView):
     model = Ingredient
     form_class = IngredientCreateForm
     template_name = "inventory/ingredient_create.html"
@@ -62,72 +75,72 @@ class IngredientCreate(CreateView):
             #success_url = reverse_lazy('ingredientlist')
             #success_message = 'new ingredient added'
 
-class IngredientDelete(DeleteView):
+class IngredientDelete(LoginRequiredMixin, DeleteView):
     model = Ingredient
     template_name = "inventory/ingredient_delete.html"
     success_url = reverse_lazy('ingredientlist')
     success_message = 'ingredient deleted '
 
-class MenuItemList(ListView):
+class MenuItemList(LoginRequiredMixin, ListView):
     model = MenuItem
     template_name: "inventory/menuitem_list.html"
 
-class MenuItemUpdate(SuccessMessageMixin, UpdateView):
+class MenuItemUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = MenuItem
     template_name = "inventory/menuitem_update.html"
     form_class = MenuItemCreateForm
     success_url = reverse_lazy('menuitemlist')
     success_message = 'menu item update'
 
-class MenuItemCreate(SuccessMessageMixin, CreateView):
+class MenuItemCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = MenuItem
     template_name = "inventory/menuitem_create.html"
     form_class = MenuItemCreateForm
     success_url = reverse_lazy('menuitemlist')
     success_message = 'new menu item added'
 
-class MenuItemDelete(SuccessMessageMixin, DeleteView):
+class MenuItemDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = MenuItem
     template_name = "inventory/menuitem_delete.html"
     success_url = reverse_lazy('menuitemlist')
     success_message = 'menu item deleted  '
 
-class RecipeRequirementList(ListView):
+class RecipeRequirementList(LoginRequiredMixin, ListView):
     model = RecipeRequirement
     template_name: "inventory/reciperequirement_list.html"
 
-class RecipeRequirementUpdate(SuccessMessageMixin, UpdateView):
+class RecipeRequirementUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = RecipeRequirement
     template_name = "inventory/reciperequirement_update.html"
     form_class = RecipeRequirementCreateForm
     success_url = reverse_lazy('reciperequirementlist')
     success_message = 'recipe requirement update'
 
-class RecipeRequirementCreate(SuccessMessageMixin, CreateView):
+class RecipeRequirementCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = RecipeRequirement
     template_name = "inventory/reciperequirement_create.html"
     form_class = RecipeRequirementCreateForm
     success_url = reverse_lazy('reciperequirementlist')
     success_message = 'new recipe requirement added'
 
-class RecipeRequirementDelete(SuccessMessageMixin, DeleteView):
+class RecipeRequirementDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = RecipeRequirement
     template_name = "inventory/reciperequirement_delete.html"
     success_url = reverse_lazy('reciperequirementlist')
     success_message = 'recipe requirement deleted'
 
-class PurchaseList(ListView):
+class PurchaseList(LoginRequiredMixin, ListView):
     model = Purchase
     template_name = "inventory/purchase_list.html"
 
-class PurchaseUpdate(SuccessMessageMixin, UpdateView):
+class PurchaseUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Purchase
     template_name = "inventory/purchase_update.html"
     form_class = PurchaseCreateForm
     success_url = reverse_lazy('purchaselist')
     success_message = 'purchase updated'
 
-class PurchaseCreate(SuccessMessageMixin, CreateView):
+class PurchaseCreate(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Purchase
     template_name = "inventory/purchase_create.html"
     form_class = PurchaseCreateForm
@@ -159,7 +172,7 @@ class PurchaseCreate(SuccessMessageMixin, CreateView):
 
 
 
-class PurchaseDelete(SuccessMessageMixin, DeleteView):
+class PurchaseDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Purchase
     template_name = "inventory/purchase_delete.html"
     success_url = reverse_lazy('purchaselist')

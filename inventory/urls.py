@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -21,4 +21,7 @@ urlpatterns = [
     path('purchase/create', views.PurchaseCreate.as_view(), name="purchasecreate"),
     path('purchase/update/<pk>', views.PurchaseUpdate.as_view(), name="purchaseupdate"),
     path('purchase/delete/<pk>', views.PurchaseDelete.as_view(), name="purchasedelete"),
+    path("logout/", views.logout_view, name="logout"),
+    path("signup/", views.SignUp.as_view(), name="signup"),
+    path("account/", include("django.contrib.auth.urls"), name="login"),
 ]
